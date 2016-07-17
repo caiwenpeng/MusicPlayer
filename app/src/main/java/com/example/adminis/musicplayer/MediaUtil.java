@@ -15,8 +15,9 @@ public class MediaUtil {
 
     public static List<Mp3Info> getMp3Infos(Context context) {
 
-        List<Mp3Info> mp3Infos = new ArrayList<Mp3Info>();
+        List<Mp3Info> mp3Infos = new ArrayList< >();
 
+        //获取数据库中的音乐文件
         Cursor cursor = context.getContentResolver().query(
                 MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null, null, null, MediaStore.Audio.Media.DEFAULT_SORT_ORDER);
 

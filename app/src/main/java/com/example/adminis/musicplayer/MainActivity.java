@@ -31,18 +31,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private String path;
     private String time_duration;
+
     private long time_change;
     private long time_all;
 
     private int mPosition = 0;
     volatile static int mProgress = 0;
 
-    Handler handler = new Handler();
-    Runnable runnable;
+    private Handler handler = new Handler();
+    private Runnable runnable;
 
     private SeekBar seekBar;
 
     boolean isRunning = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

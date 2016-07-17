@@ -5,12 +5,20 @@ package com.example.adminis.musicplayer;
  */
 public class Mp3Info {
 
+    /**
+     * String name 歌曲名
+     * String singer 歌手
+     * String duration 时长(String)
+     * long time 时长（long）
+     * String url 路径
+     */
+
+    private String url;
     private String name;
     private String singer;
     private String duration;
     private long time;
 
-    private String url;
 
     public String getUrl() {
 
@@ -54,6 +62,8 @@ public class Mp3Info {
         this.time = time;
     }
 
+
+
     public Mp3Info(String name, String singer, String duration) {
 
         this.name = name;
@@ -61,12 +71,6 @@ public class Mp3Info {
         this.duration = duration;
     }
 
-    public Mp3Info(String singer, String name) {
-
-        this.singer = singer;
-
-        this.name = name;
-    }
 
     public Mp3Info() {
 
