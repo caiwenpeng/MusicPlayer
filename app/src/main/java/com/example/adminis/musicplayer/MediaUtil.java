@@ -1,7 +1,5 @@
 package com.example.adminis.musicplayer;
 
-import android.content.Context;
-import android.database.Cursor;
 import android.provider.MediaStore;
 import android.util.Log;
 
@@ -13,42 +11,42 @@ import java.util.List;
  */
 public class MediaUtil {
 
-    public static List<Mp3Info> getMp3Infos(Context context) {
+    private MusicService musicService;
 
-        List<Mp3Info> mp3Infos = new ArrayList< >();
+    public MediaUtil(MusicService musicService) {
 
-        //获取数据库中的音乐文件
-        Cursor cursor = context.getContentResolver().query(
-                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null, null, null, MediaStore.Audio.Media.DEFAULT_SORT_ORDER);
+        this.musicService = musicService;
+    }
 
+    public List<Mp3Info> getMp3Infos() {
 
-        if (cursor.getCount() != 0) {
-            for (int i = 0; i < cursor.getCount(); i++) {
+        List<Mp3Info> mp3Infos = new ArrayList<>();
+        //获取数据库中的音乐文件 cursor
+
+        if (musicService.cursor.getCount() != 0) {
+
+            for (int i = 0; i < musicService.cursor.getCount(); i++) {
 
                 Mp3Info mp3Info = new Mp3Info();
-                cursor.moveToNext();
+                musicService.cursor.moveToNext();
                 //必须要有 cursor.moveToNext();
+                String name = musicService.getTitle();
+                String url = musicService.getUrl();
+                String singer = musicService.getAtist();
 
-                String name = cursor.getString((cursor
-                        .getColumnIndex(MediaStore.Audio.Media.TITLE)));
-                String singer = cursor.getString(cursor
-                        .getColumnIndex(MediaStore.Audio.Media.ARTIST));
-                long duration = cursor.getLong((cursor
+                long duration = musicService.cursor.getLong((musicService.cursor
                         .getColumnIndex(MediaStore.Audio.Media.DURATION)));
-                String url = cursor.getString(cursor.
-                        getColumnIndex(MediaStore.Audio.Media.DATA));
-
 
                 Log.e("MediaUtil", name + singer);
 
-                int isMusic = cursor.getInt(cursor
+                int isMusic = musicService.cursor.getInt(musicService.cursor
                         .getColumnIndex(MediaStore.Audio.Media.IS_MUSIC));//是否为音乐
 
-                if (isMusic != 0) {     //只把音乐添加到集合当中
-
+                if (isMusic != 0 && duration >0) {
+                    //只把音乐添加到集合当中
                     mp3Info.setName(name);
                     mp3Info.setSinger(singer);
-                    mp3Info.setDuration(formatTime(duration));
+                    mp3Info.setDuration(formatTime(duration /1000 ));
                     mp3Info.setTime(duration);
                     mp3Info.setUrl(url);
                     mp3Infos.add(mp3Info);
@@ -61,8 +59,8 @@ public class MediaUtil {
 
     public static String formatTime(long time) {
 
-        time = time / 1000;
-//        time =(long)83;
+        //long time 秒的级别
+
         String mTime = null;
         String hour = null;
         String min = time / 60 + "";
@@ -81,10 +79,10 @@ public class MediaUtil {
 
         if (hour != null) {
 
-            mTime = hour+":" + min + ":" + sec;
+            mTime = hour + ":" + min + ":" + sec;
         } else {
 
-            mTime =  min + ":" + sec;
+            mTime = min + ":" + sec;
         }
 
         return mTime;

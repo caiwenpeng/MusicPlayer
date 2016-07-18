@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">mi播</string>
+    <string name="title_activity_activity__player_info">PlayerInfo</string>
 </resources>
